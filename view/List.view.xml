@@ -1,8 +1,60 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+           xmlns:l="sap.ui.layout"
+           xmlns:f="sap.ui.layout.form" xmlns:Core="sap.ui.core"
            controllerName="sap.sousa.CriarProcesso.view.List" xmlns:html="http://www.w3.org/1999/xhtml">
-    <Page title="Title">
+    <Page title="{i18n>Titulo}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button id="btnAvancar"
+                    icon="sap-icon://cart"
+                    press="onCartPressed"
+                    text="2" />
+        </headerContent>
+        <subHeader>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Label text="Fornecedor"/>
+                <Input id="inputFornecedor"
+                       type="Text"
+                       placeholder="Entrar fornecedor..."
+                       showValueHelp="true"
+                       valueHelpRequest="handleValueHelp"
+                       width="300px">
+                </Input>
+            </Toolbar>
+        </subHeader>
         <content>
-            <Text text="Hello World"/>
+            <Table>
+                <columns>
+                <Column hAlign="Left" >
+                    <header><Label text="Proforma" /></header>
+                </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Pedido" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Descritivo" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Quantidade" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Unidade" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Valor" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                        <header><Label text="Fatura" /></header>
+                    </Column>
+                    <Column hAlign="Left" >
+                    </Column>
+                </columns>
+            </Table>
         </content>
+        <footer>
+            <Toolbar>
+
+            </Toolbar>
+        </footer>
     </Page>
 </core:View>

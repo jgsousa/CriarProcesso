@@ -85,6 +85,10 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         oDeviceModel.setDefaultBindingMode("OneWay");
         this.setModel(oDeviceModel, "device");
 
+        var jModel = new sap.ui.model.json.JSONModel();
+        jModel.loadData("model/fornecedores.json", '$format=JSON', false);
+        this.setModel(jModel,"Fornecedores");
+
         this.getRouter().initialize();
 
     },

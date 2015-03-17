@@ -1,4 +1,4 @@
-sap.ui.controller("sap.sousa.CriarProcesso.List", {
+sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
 
     /**
      * Called when a controller is instantiated and its View controls (if available) are already created.
@@ -35,4 +35,36 @@ sap.ui.controller("sap.sousa.CriarProcesso.List", {
 //
 //	}
 
+    handleValueHelp : function (oController) {
+        this.inputId = oController.oSource.sId;
+        // create value help dialog
+        if (!this._valueHelpDialog) {
+            this._valueHelpDialog = sap.ui.xmlfragment(
+                "sap.sousa.CriarProcesso.view.Dialog",
+                this
+            );
+            this.getView().addDependent(this._valueHelpDialog);
+        }
+
+        // open value help dialog
+        this._valueHelpDialog.open();
+    },
+
+    _handleValueHelpSearch : function (evt) {
+        var sValue = evt.getParameter("value");
+        var oFilter = new sap.ui.model.Filter(
+            "nome",
+            sap.ui.model.FilterOperator.Contains, sValue
+        );
+        evt.getSource().getBinding("items").filter([oFilter]);
+    },
+
+    _handleValueHelpClose : function (evt) {
+        var oSelectedItem = evt.getParameter("selectedItem");
+        if (oSelectedItem) {
+            var productInput = this.getView().byId("inputFornecedor");
+            productInput.setValue(oSelectedItem.getDescription());
+        }
+        evt.getSource().getBinding("items").filter([]);
+    }
 });
