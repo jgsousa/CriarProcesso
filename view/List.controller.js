@@ -58,7 +58,7 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
     _handleValueHelpSearch : function (evt) {
         var sValue = evt.getParameter("value");
         var oFilter = new sap.ui.model.Filter(
-            "nome",
+            "Descritivo",
             sap.ui.model.FilterOperator.Contains, sValue
         );
         evt.getSource().getBinding("items").filter([oFilter]);
@@ -77,7 +77,7 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
             fornecedorInput.setValue(oSelectedItem.getDescription());
         }
         evt.getSource().getBinding("items").filter([]);
-        if(oSelectedItem.getDescription()){
+        if(oSelectedItem && oSelectedItem.getDescription()){
             this._setFornecedorBinding(oSelectedItem.getDescription());
         }
     },

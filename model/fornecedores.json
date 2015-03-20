@@ -1,8 +1,8 @@
 {
   "FornecedorSet" : [
-  { "key": "1000", "nome": "Zé Manuel"  },
-  { "key": "1001", "nome": "Tó Zé"  },
-  { "key": "1002", "nome": "Maria Manuela"  },
-  { "key": "200022", "nome": "Cerealis" }
+  { "FornecedorID": "1000", "Descritivo": "Zé Manuel"  },
+  { "FornecedorID": "1001", "Descritivo": "Tó Zé"  },
+  { "FornecedorID": "1002", "Descritivo": "Maria Manuela"  },
+  { "FornecedorID": "200022", "Descritivo": "Cerealis" }
 ]
 }

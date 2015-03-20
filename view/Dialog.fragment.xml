@@ -4,12 +4,12 @@
     <SelectDialog
             title="Fornecedores"
             class="sapUiPopupWithPadding"
-            items="{Fornecedores>/FornecedorSet}"
+            items="{Fornecedores>/results}"
             search="_handleValueHelpSearch"
             confirm="_handleValueHelpClose"
             cancel="_handleValueHelpClose">
         <StandardListItem
-                title="{Fornecedores>nome}"
-                description="{Fornecedores>key}" />
+                title="{Fornecedores>Descritivo}"
+                description="{Fornecedores>FornecedorID}" />
     </SelectDialog>
 </core:FragmentDefinition>

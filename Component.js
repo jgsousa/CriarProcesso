@@ -74,6 +74,12 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
         this.setModel(oModel);
 
+        var jModel = new sap.ui.model.json.JSONModel();
+        this.setModel(jModel,"Fornecedores");
+        oModel.read("/FornecedorSet",null, null, true, function(oData, oResponse){
+            jModel.setData(oData);
+        });
+
         // set device model
         var oDeviceModel = new sap.ui.model.json.JSONModel({
             isTouch: sap.ui.Device.support.touch,
@@ -86,9 +92,10 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         oDeviceModel.setDefaultBindingMode("OneWay");
         this.setModel(oDeviceModel, "device");
 
-        var jModel = new sap.ui.model.json.JSONModel();
-        jModel.loadData("model/fornecedores.json", '$format=JSON', false);
-        this.setModel(jModel,"Fornecedores");
+
+//        jModel.loadData(sServiceUrl + "FornecedorSet/", '', false);
+//        jModel.loadData("model/fornecedores.json", '', false);
+
 
         var pModel = new sap.ui.model.json.JSONModel({ items : [], total : 0 });
         this.setModel(pModel,"Processo");
