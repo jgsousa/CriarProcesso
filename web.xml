@@ -1,0 +1,16 @@
+#!xml
+
+<servlet>
+    <servlet-name>SimpleProxyServlet</servlet-name>
+    <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>SimpleProxyServlet</servlet-name>
+<url-pattern>/proxy/*</url-pattern>
+</servlet-mapping>
+
+<context-param>
+<param-name>com.sap.ui5.proxy.REMOTE_LOCATION</param-name>
+<param-value>http://sapretail.deloitte.pt:8000</param-value>
+</context-param>

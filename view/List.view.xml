@@ -1,4 +1,5 @@
-<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+<core:View id="List"
+           xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
            xmlns:l="sap.ui.layout"
            xmlns:f="sap.ui.layout.form" xmlns:Core="sap.ui.core"
            controllerName="sap.sousa.CriarProcesso.view.List" xmlns:html="http://www.w3.org/1999/xhtml">
@@ -7,7 +8,7 @@
             <Button id="btnAvancar"
                     icon="sap-icon://cart"
                     press="onCartPressed"
-                    text="2" />
+                    text="{Processo>/total}"/>
         </headerContent>
         <subHeader>
             <Toolbar>
@@ -18,12 +19,13 @@
                        placeholder="Entrar fornecedor..."
                        showValueHelp="true"
                        valueHelpRequest="handleValueHelp"
+                       change="handleChange"
                        width="300px">
                 </Input>
             </Toolbar>
         </subHeader>
         <content>
-            <Table>
+            <Table id="tabela">
                 <columns>
                 <Column hAlign="Left" >
                     <header><Label text="Proforma" /></header>
@@ -46,7 +48,8 @@
                     <Column hAlign="Left" >
                         <header><Label text="Fatura" /></header>
                     </Column>
-                    <Column hAlign="Left" >
+                    <Column hAlign="Center" >
+                        <header><Label text="Selecionado"/></header>
                     </Column>
                 </columns>
             </Table>

@@ -1,6 +1,8 @@
-{ "FornecedorSet" : [
+{
+  "FornecedorSet" : [
   { "key": "1000", "nome": "Zé Manuel"  },
   { "key": "1001", "nome": "Tó Zé"  },
-  { "key": "1002", "nome": "Maria Manuela"  }
+  { "key": "1002", "nome": "Maria Manuela"  },
+  { "key": "200022", "nome": "Cerealis" }
 ]
 }

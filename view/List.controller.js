@@ -1,3 +1,6 @@
+jQuery.sap.require("sap.sousa.CriarProcesso.util.modeloProcesso");
+jQuery.sap.require("sap.ui.core.IconPool");
+
 sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
 
     /**
@@ -5,9 +8,10 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
      * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
      * @memberOf sap.sousa.CriarProcesso.List
      */
-//	onInit: function() {
-//
-//	},
+	onInit: function() {
+        this._shopCartButton = this.getView().byId("btnAvancar");
+
+	},
 
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -23,9 +27,10 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
      * This hook is the same one that SAPUI5 controls get after being rendered.
      * @memberOf sap.sousa.CriarProcesso.List
      */
-//	onAfterRendering: function() {
-//
-//	},
+	onAfterRendering: function() {
+        var model = this.getView().getModel();
+        var pmodel = this.getView().getModel("Processo");
+	},
 
     /**
      * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
@@ -59,12 +64,72 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
         evt.getSource().getBinding("items").filter([oFilter]);
     },
 
+    handleChange : function (oEvent) {
+        if(oEvent.getParameter("newValue")){
+            this._setFornecedorBinding(oEvent.getParameter("newValue"));
+        }
+    },
+
     _handleValueHelpClose : function (evt) {
         var oSelectedItem = evt.getParameter("selectedItem");
         if (oSelectedItem) {
-            var productInput = this.getView().byId("inputFornecedor");
-            productInput.setValue(oSelectedItem.getDescription());
+            var fornecedorInput = this.getView().byId("inputFornecedor");
+            fornecedorInput.setValue(oSelectedItem.getDescription());
         }
         evt.getSource().getBinding("items").filter([]);
+        if(oSelectedItem.getDescription()){
+            this._setFornecedorBinding(oSelectedItem.getDescription());
+        }
+    },
+
+    _setFornecedorBinding : function (fornecedor) {
+        var path = "/FornecedorSet('" + fornecedor + "')/Itens";
+
+        var table = this.getView().byId("tabela");
+        this._table = table;
+
+        var button = new sap.m.Button({text : "", press : [this.handleAddItem, this],
+                                        icon : "{icon}"});
+
+        var oTemplate = new sap.m.ColumnListItem(
+            {cells: [
+                new sap.m.Text({text : "{Proforma}"}),
+                new sap.m.Text({text : "{PedidoID}"}),
+                new sap.m.Text({text : "{Descritivo}"}),
+                new sap.m.Text({text : "{Quantidade}"}),
+                new sap.m.Text({text : "{Unidade}"}),
+                new sap.m.Text({text : "{Valor}"}),
+                new sap.m.Input({value : "{Factura}", editable : "{editavel}", change : function(oEvent){
+                    var texto = oEvent.getParameter("newValue");
+                    oEvent.getSource().getBindingContext().getObject().Factura = texto;
+                }}),
+                button
+                 ]});
+        table.bindItems(path, oTemplate);
+    },
+
+    handleAddItem : function(oEvent){
+        var text = oEvent.getSource().getBindingContext().getObject().Descritivo;
+        var oObject = oEvent.getSource().getBindingContext().getObject();
+        if(!oObject.Factura){
+            sap.m.MessageToast.show("Preencher número de factura");
+        }
+        else {
+
+            if(!oObject.icon) {
+                sap.sousa.CriarProcesso.util.modeloProcesso.addItem(oObject, this);
+                oObject.icon = "sap-icon://accept";
+                oObject.editavel = false;
+                sap.m.MessageToast.show("Item adicionado");
+            }
+            else{
+                sap.sousa.CriarProcesso.util.modeloProcesso.removeItem(oObject, this);
+                oObject.icon = "";
+                oObject.editavel = true;
+                ;
+                sap.m.MessageToast.show("Item Removido");
+            }
+            this.getView().getModel().updateBindings(true)
+        }
     }
 });

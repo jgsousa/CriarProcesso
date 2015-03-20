@@ -61,6 +61,7 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         this.setModel(i18nModel, "i18n");
 
         var sServiceUrl = mConfig.serviceConfig.serviceUrl;
+        sServiceUrl = this._getServiceUrl(sServiceUrl);
 
         //This code is only needed for testing the application when there is no local proxy available, and to have stable test data.
         var bIsMocked = jQuery.sap.getUriParameters().get("responderOn") === "true";
@@ -89,6 +90,10 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         jModel.loadData("model/fornecedores.json", '$format=JSON', false);
         this.setModel(jModel,"Fornecedores");
 
+        var pModel = new sap.ui.model.json.JSONModel({ items : [], total : 0 });
+        this.setModel(pModel,"Processo");
+
+
         this.getRouter().initialize();
 
     },
@@ -111,5 +116,15 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         sap.m.MessageToast.show("Running in demo mode with mock data.", {
             duration: 2000
         });
+    },
+
+    _getServiceUrl : function(sServiceUrl) {
+        //for local testing prefix with proxy
+        //if you and your team use a special host name or IP like 127.0.0.1 for localhost please adapt the if statement below
+        if (window.location.hostname == "localhost") {
+            return "" + sServiceUrl;
+        } else {
+            return sServiceUrl;
+        }
     }
 });
