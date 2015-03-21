@@ -1,7 +1,8 @@
 jQuery.sap.require("sap.sousa.CriarProcesso.util.modeloProcesso");
 jQuery.sap.require("sap.ui.core.IconPool");
+jQuery.sap.require("sap.sousa.CriarProcesso.util.Controller");
 
-sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
+sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.List", {
 
     /**
      * Called when a controller is instantiated and its View controls (if available) are already created.
@@ -10,7 +11,6 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
      */
 	onInit: function() {
         this._shopCartButton = this.getView().byId("btnAvancar");
-
 	},
 
     /**
@@ -96,9 +96,14 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
                 new sap.m.Text({text : "{Proforma}"}),
                 new sap.m.Text({text : "{PedidoID}"}),
                 new sap.m.Text({text : "{Descritivo}"}),
-                new sap.m.Text({text : "{Quantidade}"}),
-                new sap.m.Text({text : "{Unidade}"}),
-                new sap.m.Text({text : "{Valor}"}),
+                new sap.m.ObjectNumber({
+                    number: { path : "Quantidade", type: new sap.ui.model.type.Float({ maxFractionDigits : 2}) } ,
+                    unit : "{Unidade}"
+                }),
+                new sap.m.ObjectNumber({
+                    number: { path : "Valor", type: new sap.ui.model.type.Float({ maxFractionDigits : 2}) } ,
+                    unit : "{Moeda}"
+                }),
                 new sap.m.Input({value : "{Factura}", editable : "{editavel}", change : function(oEvent){
                     var texto = oEvent.getParameter("newValue");
                     oEvent.getSource().getBindingContext().getObject().Factura = texto;
@@ -115,15 +120,15 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
             sap.m.MessageToast.show("Preencher número de factura");
         }
         else {
-
+            var oModel = this.getView().getModel("Processo");
             if(!oObject.icon) {
-                sap.sousa.CriarProcesso.util.modeloProcesso.addItem(oObject, this);
+                oModel.addItem(oObject, this);
                 oObject.icon = "sap-icon://accept";
                 oObject.editavel = false;
                 sap.m.MessageToast.show("Item adicionado");
             }
             else{
-                sap.sousa.CriarProcesso.util.modeloProcesso.removeItem(oObject, this);
+                oModel.removeItem(oObject, this);
                 oObject.icon = "";
                 oObject.editavel = true;
                 ;
@@ -131,5 +136,9 @@ sap.ui.controller("sap.sousa.CriarProcesso.view.List", {
             }
             this.getView().getModel().updateBindings(true)
         }
+    },
+
+    onCartPressed : function(){
+        this.getRouter().navTo("n2");
     }
 });

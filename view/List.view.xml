@@ -36,16 +36,13 @@
                     <Column hAlign="Left" >
                         <header><Label text="Descritivo" /></header>
                     </Column>
-                    <Column hAlign="Left" >
+                    <Column hAlign="Center" >
                         <header><Label text="Quantidade" /></header>
                     </Column>
-                    <Column hAlign="Left" >
-                        <header><Label text="Unidade" /></header>
-                    </Column>
-                    <Column hAlign="Left" >
+                    <Column hAlign="Center" >
                         <header><Label text="Valor" /></header>
                     </Column>
-                    <Column hAlign="Left" >
+                    <Column hAlign="Center" >
                         <header><Label text="Fatura" /></header>
                     </Column>
                     <Column hAlign="Center" >

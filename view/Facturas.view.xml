@@ -1,0 +1,61 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+           controllerName="sap.sousa.CriarProcesso.view.Facturas" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="Introduzir dados de facturas" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <ToolbarSpacer/>
+            <Button text="Avançar" type="Emphasized" press="onPressAvancar"/>
+        </headerContent>
+        <subHeader>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Label text="Processo"/>
+                <Input id="inputProcesso"
+                       type="Text"
+                       placeholder="Entrar processo..."
+                       liveChange="onLiveProcesso"
+                       width="300px">
+                </Input>
+                <ToolbarSpacer/>
+                <Label text="Empresa"/>
+                <Input id="inputEmpresa"
+                       type="Text"
+                       placeholder="Entrar empresa..."
+                       showValueHelp="true"
+                       valueHelpRequest="handleValueHelp"
+                       change="handleChangeEmpresa"
+                       liveChange="onLiveEmpresa"
+                       width="300px">
+                </Input>
+                <ToolbarSpacer/>
+            </Toolbar>
+        </subHeader>
+        <content>
+            <Table id="tabela">
+                <columns>
+                    <Column hAlign="Left" >
+                        <header><Label text="Factura" /></header>
+                    </Column>
+                    <Column hAlign="Center" >
+                        <header><Label text="FOB" /></header>
+                    </Column>
+                    <Column hAlign="Center" >
+                        <header><Label text="Frete" /></header>
+                    </Column>
+                    <Column hAlign="Center" >
+                        <header><Label text="Seguro" /></header>
+                    </Column>
+                    <Column hAlign="Center" >
+                        <header><Label text="CNCA" /></header>
+                    </Column>
+                    <Column hAlign="Center" >
+                        <header><Label text="Total" /></header>
+                    </Column>
+                </columns>
+            </Table>
+        </content>
+        <footer>
+            <Toolbar>
+            </Toolbar>
+        </footer>
+    </Page>
+</core:View>

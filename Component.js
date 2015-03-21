@@ -1,5 +1,6 @@
 jQuery.sap.declare("sap.sousa.CriarProcesso.Component");
 jQuery.sap.require("sap.sousa.CriarProcesso.MyRouter");
+jQuery.sap.require("sap.sousa.CriarProcesso.util.modeloProcesso");
 
 sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
     metadata: {
@@ -34,6 +35,12 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
                     pattern: "",
                     name: "main",
                     view: "List",
+                    targetControl : "idAppControl"
+                },
+                {
+                    pattern: "factura",
+                    name: "n2",
+                    view: "Facturas",
                     targetControl : "idAppControl"
                 },
                 {
@@ -93,11 +100,7 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         this.setModel(oDeviceModel, "device");
 
 
-//        jModel.loadData(sServiceUrl + "FornecedorSet/", '', false);
-//        jModel.loadData("model/fornecedores.json", '', false);
-
-
-        var pModel = new sap.ui.model.json.JSONModel({ items : [], total : 0 });
+        var pModel = new sap.sousa.CriarProcesso.util.modeloProcesso({ items : [], total : 0 });
         this.setModel(pModel,"Processo");
 
 
