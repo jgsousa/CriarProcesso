@@ -92,13 +92,24 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Fac
         var model = this.getView().getModel("Facturas");
         var object = model.getODataObject();
         var oModel = this.getView().getModel();
-        var batch = [];
-        oModel.create('/ProcessoSet', object, null, function(){
-                sap.m.MessageToast.show("Criado com sucesso");
-        	},function(oError){
-                var model = new sap.ui.model.json.JSONModel();
-                model.setJSON(oError.response.body);
-                sap.m.MessageToast.show(model.getData().error.message.value);
-        });
+        var procData = this.getView().getModel("Processo").getData();
+
+        for(var i= 0; i < procData.items.length; i++){
+          var obj = {};
+          obj.FacturaId = procData.items[i]["Factura"];
+          obj.PedidoId = procData.items[i]["PedidoID"];
+          obj.PedidoItemId = procData.items[i]["ItemID"];
+          object.ItensFactura.push(obj);
+        }
+        this.getRouter().navTo("n3");
+        //oModel.create('/ProcessoSet', object, null,
+        //    function(){
+        //        sap.m.MessageToast.show("Criado com sucesso");
+        //    },
+        //    function(oError){
+        //        var model = new sap.ui.model.json.JSONModel();
+        //        model.setJSON(oError.response.body);
+        //        sap.m.MessageToast.show(model.getData().error.message.value);
+        //});
     }
 });

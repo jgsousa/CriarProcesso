@@ -47,7 +47,7 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloFacturas"
     },
 
     getODataObject : function () {
-        var processo = { ProcessoId:"", Empresa:"", Facturas : [] };
+        var processo = { ProcessoId:"", Empresa:"", Facturas : [], ItensFactura:[] };
         var data = this.getData();
 
         processo.ProcessoId = data.processo;

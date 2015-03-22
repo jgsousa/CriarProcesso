@@ -1,0 +1,97 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
+           controllerName="sap.sousa.CriarProcesso.view.Contentores" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="Contentorizar processo {Processo>/Processo}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <ToolbarSpacer/>
+            <Button text="Avançar" type="Emphasized" press="onPressAvancar"/>
+        </headerContent>
+        <content>
+            <l:Grid position="Center" defaultSpan="L6 M6 S10">
+                <Table id="Origem" items="{Processo>/items}"> 
+                    <headerToolbar> 
+                        <Toolbar>
+                            <Label text="Origem"/> 
+                        </Toolbar>
+                    </headerToolbar> 
+                    <columns> 
+                        <Column hAlign="Left" > 
+                            <header><Label text="Pedido" />
+                            </header> 
+                        </Column> 
+                        <Column hAlign="Center" > 
+                            <header><Label text="Descritivo" />
+                            </header> 
+                        </Column> 
+                        <Column hAlign="Center" > 
+                            <header>
+                                <Label text="Quantid." />
+                            </header> 
+                        </Column> 
+                        <Column hAlign="Center" > 
+                            <header>
+                                <Label text="Transf." />
+                            </header> 
+                        </Column> 
+                        <Column hAlign="Center" > 
+                            <header>
+                                <Label text="" />
+                            </header> 
+                        </Column> 
+                    </columns> 
+                    <items> 
+                        <ColumnListItem unread="true" counter="0"> 
+                            <cells> 
+                                <Text text="{Processo>PedidoID}"/> 
+                                <Text text="{Processo>Descritivo}"/> 
+                                <ObjectNumber number="{Processo>Quantidade}" numberUnit="{Processo>Unidade}"/> 
+                                <Input value="{Processo>Transf}" placeholder="A Transferir" type="Number"/> 
+                                <Button icon="sap-icon://add" press="onAddItem"/> 
+                            </cells> 
+                        </ColumnListItem> 
+                    </items> </Table>
+                <Table id="Destino" items="{Contentores>items}">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Label text="Contentores"/>
+                            <ToolbarSpacer/>
+                            <Select width="200px" items="{Contentores>/contentores}" change="onContentorSelect">
+                                <core:Item key="{Contentores>matricula}" text="{Contentores>matricula}"/>
+                            </Select>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://add" press="onAddContentor"/>
+                            <Button icon="sap-icon://duplicate"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column hAlign="Left" >
+                            <header><Label text="Factura" /></header>
+                        </Column>
+                        <Column hAlign="Left" >
+                            <header><Label text="Descritivo" /></header>
+                        </Column>
+                        <Column hAlign="Center" >
+                            <header><Label text="Quantidade" /></header>
+                        </Column>
+                        <Column hAlign="Center" >
+                            <header><Label text="" /></header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem unread="true" counter="0">
+                            <cells>
+                                <Text text="{Contentores>Factura}"/>
+                                <Text text="{Contentores>Descritivo}"/>
+                                <ObjectNumber number="{Contentores>Quantidade}" numberUnit="{Contentores>Unidade}"/>
+                                <Button icon="sap-icon://delete" press="onRemoveItem"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </l:Grid>
+        </content>
+        <footer>
+            <Toolbar>
+            </Toolbar>
+        </footer>
+    </Page>
+</core:View>
