@@ -1,5 +1,6 @@
 jQuery.sap.require("sap.sousa.CriarProcesso.util.Controller");
 jQuery.sap.require("sap.sousa.CriarProcesso.util.modeloContentores");
+jQuery.sap.require("sap.sousa.CriarProcesso.util.modeloProcesso");
 
 sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Contentores", {
 
@@ -16,12 +17,12 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
             }
         }, this);
         var model = this._iniciarModelo();
-        var table = this.getView().byId("Destino");
-        var oContext = model.getContextForMatricula("TESTE1");
-        if(oContext) {
-            table.setBindingContext(oContext, "Contentores");
-        }
-        this.contentor = "TESTE1";
+        //var table = this.getView().byId("Destino");
+        //var oContext = model.getContextForMatricula("TESTE1");
+        //if(oContext) {
+        //    table.setBindingContext(oContext, "Contentores");
+        //}
+        //this.contentor = "TESTE1";
     },
 
     /**
@@ -57,7 +58,9 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
         var criarModelo = new sap.ui.model.json.JSONModel({ matricula:"", tipo:"" });
         this.getView().setModel(criarModelo,"Criar");
         var tipoModelo = new sap.ui.model.json.JSONModel({ tipos : [
-            { key:"SC20", text:"SC20" } ,{ key:"SC40", text:"SC40" },{ key:"RF20", text:"RF20" },{ key:"RF40", text:"RF40" }
+            { key:"-", text:"" },
+            { key:"SC20", text:"SC20" } ,{ key:"SC40", text:"SC40" },
+            { key:"RF20", text:"RF20" },{ key:"RF40", text:"RF40" }
         ]});
         this.getView().setModel(tipoModelo, "Tipos");
         return cModel;
@@ -71,18 +74,90 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
             );
             this.getView().addDependent(this._addDialog);
         }
-
+        var data = this.getView().getModel("Criar").getData();
+        data.matricula = "";
+        data.tipo = "-";
+        this.getView().getModel("Criar").updateBindings();
         // open value help dialog
         this._addDialog.open();
+    },
+
+    onCopyContentor : function(oEvent){
+        var valido = this._validarCopia(this.contentor);
+        if(valido == true) {
+            if (!this._addDialogCopy) {
+                this._addDialogCopy = sap.ui.xmlfragment(
+                    "sap.sousa.CriarProcesso.view.Copiar",
+                    this
+                );
+                this.getView().addDependent(this._addDialogCopy);
+            }
+            var data = this.getView().getModel("Criar").getData();
+            data.matricula = "";
+            data.tipo = "-";
+            this.getView().getModel("Criar").updateBindings();
+            // open value help dialog
+            this._addDialogCopy.open();
+        }
+        else{
+            sap.m.MessageToast.show("Quantidade insuficiente");
+        }
     },
 
     onDialogOkButton: function (oEvent) {
         var model = this.getView().getModel("Criar");
         model.refresh();
         var data = this.getView().getModel("Criar").getData();
+        if(data.tipo == "-"){
+            sap.m.MessageToast.show("Escolher tipo");
+            return;
+        }
+        if(!data.matricula){
+            sap.m.MessageToast.show("Introduzir matricula");
+            return;
+        }
         this._addDialog.close();
         if(data.matricula && data.tipo){
-            sap.m.MessageToast.show(data.matricula + data.tipo);
+            this.cModel.addContentor(data.matricula,data.tipo);
+            this.cModel.updateBindings();
+            if(!this.contentor){
+                var context = this.getView().getModel("Contentores").getContextForMatricula(data.matricula);
+                var table = this.getView().byId("Destino");
+                table.setBindingContext(context, "Contentores");
+                this.contentor = data.matricula;
+            }
+        }
+    },
+
+    onDialogCopiarOkButton: function (oEvent) {
+        var model = this.getView().getModel("Criar");
+        model.refresh();
+        var data = model.getData();
+        if(data.tipo == "-"){
+            sap.m.MessageToast.show("Escolher tipo");
+            return;
+        }
+        if(!data.matricula){
+            sap.m.MessageToast.show("Introduzir matricula");
+            return;
+        }
+        this._addDialogCopy.close();
+        if(data.matricula && data.tipo){
+            this.cModel.addContentor(data.matricula,data.tipo);
+            this.cModel.updateBindings();
+            if(!this.contentor){
+                var context = this.getView().getModel("Contentores").getContextForMatricula(data.matricula);
+                var table = this.getView().byId("Destino");
+                table.setBindingContext(context, "Contentores");
+                this.contentor = data.matricula;
+            }
+            else{
+                var old = this.cModel.getForMatricula(this.contentor);
+                var pModel = this.getView().getModel("Processo");
+                pModel.efectuarCopia(old,data.matricula,this.cModel);
+                this.cModel.updateBindings();
+                this.getView().getModel("Processo").updateBindings();
+            }
         }
     },
 
@@ -90,9 +165,8 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
         this._addDialog.close();
     },
 
-    onCriarLive : function(oEvent){
-        var data = this.getView().getModel("Criar").getData();
-        data.matricula = oEvent.getParameter("value");
+    onDialogCopiarCloseButton: function (oEvent) {
+        this._addDialogCopy.close();
     },
 
     onAddItem : function(oEvent){
@@ -124,23 +198,25 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
         processo.updateBindings();
     },
 
-    onCriarSelected : function(oEvent){
-        var tipo = oEvent.getParameter("selectedItem");
-        sap.m.MessageToast.show(tipo.getProperty("key"));
-    },
-
     onContentorSelect : function(oEvent){
         var matricula = oEvent.getParameter("selectedItem").getProperty("key");
         var context = this.getView().getModel("Contentores").getContextForMatricula(matricula);
         if(context){
             var table = this.getView().byId("Destino");
             table.setBindingContext(context, "Contentores");
+            this.contentor = matricula;
         }
     },
 
     onTransferirDestino : function(oEvent){
         var oObject = oEvent.getSource().getBindingContext().getObject();
 
+    },
+
+    _validarCopia : function(matricula){
+        var cont = this.cModel.getForMatricula(this.contentor);
+        var model = this.getView().getModel("Processo");
+        return model.checkCopia(cont);
     }
 
 });

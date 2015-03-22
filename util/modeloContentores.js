@@ -5,19 +5,23 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloContentor
 
     initModelo : function(){
         var data = { contentores : [
-            { id:"1", matricula:"TESTE1", tipo:"SC20", items:[
-
-            ]},
-            { id:"2", matricula:"TESTE2", tipo:"SC40", items:[
-                { Descritivo:"4444", Descritivo:2, Unidade:"UN"} , { Descritivo:"555", Quantidade:3, Unidade:"UN"}
-            ]}
+            //{ id:"1", matricula:"TESTE1", tipo:"SC20", items:[
+            //
+            //]},
+            //{ id:"2", matricula:"TESTE2", tipo:"SC40", items:[
+            //    { Descritivo:"4444", Descritivo:2, Unidade:"UN"} , { Descritivo:"555", Quantidade:3, Unidade:"UN"}
+            //]}
         ]
         };
         this.setData(data);
     },
 
-    addContentor : function(oObject){
-
+    addContentor : function(matricula, tipo){
+        var obj = {};
+        obj.matricula = matricula;
+        obj.tipo = tipo;
+        obj.items = [];
+        this.getData().contentores.push(obj);
     },
 
     addItem : function(matricula, object){
@@ -85,7 +89,7 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloContentor
 
     getContextForMatricula : function(matricula){
         var data = this.getData();
-        for(var i = 0; i < data.contentores[i].items.length; i++){
+        for(var i = 0; i < data.contentores.length; i++){
             if(matricula == data.contentores[i]["matricula"]){
                 return new sap.ui.model.Context(this, "/contentores/" + i);
             }

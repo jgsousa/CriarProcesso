@@ -59,7 +59,7 @@
                             </Select>
                             <ToolbarSpacer/>
                             <Button icon="sap-icon://add" press="onAddContentor"/>
-                            <Button icon="sap-icon://duplicate"/>
+                            <Button icon="sap-icon://duplicate" press="onCopyContentor"/>
                         </Toolbar>
                     </headerToolbar>
                     <columns>

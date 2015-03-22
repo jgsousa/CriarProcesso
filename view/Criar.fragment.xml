@@ -9,9 +9,9 @@
         <content>
             <f:SimpleForm>
             <Label text="Matrícula"/>
-            <Input id="contInput" placeholder="Introduzir matrícula" liveChange="onCriarLive"/>
+            <Input id="contInput" placeholder="Introduzir matrícula" value="{Criar>/matricula}"/>
             <Label text="Tipo"/>
-            <Select items="{Tipos>/tipos}" change="onCriarSelected">
+            <Select items="{Tipos>/tipos}" selectedKey="{Criar>/tipo}">
                 <core:Item key="{Tipos>key}" text="{Tipos>text}" />
             </Select>
             </f:SimpleForm>

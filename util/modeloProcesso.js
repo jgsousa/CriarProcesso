@@ -1,4 +1,5 @@
 jQuery.sap.declare('sap.sousa.CriarProcesso.util.modeloProcesso');
+jQuery.sap.require('sap.sousa.CriarProcesso.util.modeloContentores');
 
 sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloProcesso", {
 
@@ -49,6 +50,41 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloProcesso"
             if(object.PedidoID == data.items[i]["PedidoID"] && object.ItemID == data.items[i]["ItemID"]){
                 var item = data.items[i];
                 item.Quantidade = Number(item.Quantidade) + Number(object.Quantidade);
+            }
+        }
+    },
+
+    checkCopia : function(contentor, modelo){
+        var data = this.getData();
+
+        for(var i = 0; i < contentor.items.length; i++){
+            for(var j = 0; j < data.items.length; j++ ){
+                if(contentor.items[i]["PedidoID"] == data.items[j]["PedidoID"] &&
+                   contentor.items[i]["ItemID"] == data.items[j]["ItemID"]){
+                    var o = contentor.items[i];
+                    var p = data.items[j];
+                    if(o.Quantidade > p.Quantidade){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    },
+
+    efectuarCopia : function(contentor, novaMatricula, modelo){
+        var data = this.getData();
+        for(var i = 0; i < contentor.items.length; i++){
+            for(var j = 0; j < data.items.length; j++ ){
+                if(contentor.items[i]["PedidoID"] == data.items[j]["PedidoID"] &&
+                    contentor.items[i]["ItemID"] == data.items[j]["ItemID"]){
+                    var o = contentor.items[i];
+                    var p = data.items[j];
+                    if(o.Quantidade <= p.Quantidade){
+                        p.Transf = o.Quantidade;
+                        modelo.addItem(novaMatricula,p);
+                    }
+                }
             }
         }
     }
