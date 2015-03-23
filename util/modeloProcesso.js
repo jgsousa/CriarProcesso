@@ -37,7 +37,7 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloProcesso"
 
     initMockData : function(){
 
-        this.setProcessoEmpresa("14ND888","1000");
+        this.setProcessoEmpresa("14789","1000");
         var oObject = { PedidoID: "550002323", ItemID: "00010", Descritivo: "Item teste 1", Quantidade: 200, Unidade: "UN", Factura: "9232", Transf:"" };
         this.addItem(oObject);
         var oObject2 = { PedidoID: "550002323", ItemID: "00020", Descritivo: "Item teste 2", Quantidade: 300, Unidade: "UN", Factura: "9232", Transf:"" };
@@ -87,5 +87,15 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloProcesso"
                 }
             }
         }
+    },
+
+    hasQuantidadesPorAtribuir : function(){
+        var data = this.getData();
+        for(var i = 0; i < data.items.length; i++){
+            if(data.items[i]["Quantidade"] != 0){
+                return true;
+            }
+        }
+        return false;
     }
 })

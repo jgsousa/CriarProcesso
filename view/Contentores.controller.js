@@ -16,13 +16,7 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
                 model.initMockData();
             }
         }, this);
-        var model = this._iniciarModelo();
-        //var table = this.getView().byId("Destino");
-        //var oContext = model.getContextForMatricula("TESTE1");
-        //if(oContext) {
-        //    table.setBindingContext(oContext, "Contentores");
-        //}
-        //this.contentor = "TESTE1";
+        this.cModel = this._iniciarModelo();
     },
 
     /**
@@ -54,7 +48,6 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
         var cModel = new sap.sousa.CriarProcesso.util.modeloContentores();
         cModel.initModelo();
         this.getView().setModel(cModel,"Contentores");
-        this.cModel = cModel;
         var criarModelo = new sap.ui.model.json.JSONModel({ matricula:"", tipo:"" });
         this.getView().setModel(criarModelo,"Criar");
         var tipoModelo = new sap.ui.model.json.JSONModel({ tipos : [
@@ -208,15 +201,25 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
         }
     },
 
-    onTransferirDestino : function(oEvent){
-        var oObject = oEvent.getSource().getBindingContext().getObject();
-
-    },
-
     _validarCopia : function(matricula){
         var cont = this.cModel.getForMatricula(this.contentor);
         var model = this.getView().getModel("Processo");
         return model.checkCopia(cont);
+    },
+
+    _saveContentores : function(){
+
+    },
+
+    onAvancar : function(oEvent){
+        var hasPorAtribuir = this.getView().getModel("Processo").hasQuantidadesPorAtribuir();
+        if(!hasPorAtribuir) {
+            sap.ui.getCore().setModel(this.cModel, "Contentores");
+            this.getRouter().navTo("n4");
+        }
+        else{
+            sap.m.MessageToast.show("Quantidades por atribuir");
+        }
     }
 
 });

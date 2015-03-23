@@ -1,10 +1,6 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
            controllerName="sap.sousa.CriarProcesso.view.Contentores" xmlns:html="http://www.w3.org/1999/xhtml">
     <Page title="Contentorizar processo {Processo>/Processo}" showNavButton="true" navButtonPress="onNavBack">
-        <headerContent>
-            <ToolbarSpacer/>
-            <Button text="Avançar" type="Emphasized" press="onPressAvancar"/>
-        </headerContent>
         <content>
             <l:Grid position="Center" defaultSpan="L6 M6 S10">
                 <Table id="Origem" items="{Processo>/items}"> 
@@ -44,7 +40,7 @@
                                 <Text text="{Processo>PedidoID}"/> 
                                 <Text text="{Processo>Descritivo}"/> 
                                 <ObjectNumber number="{Processo>Quantidade}" numberUnit="{Processo>Unidade}"/> 
-                                <Input value="{Processo>Transf}" placeholder="A Transferir" type="Number"/> 
+                                <Input value="{Processo>Transf}" placeholder="A Transferir" type="Number" change="onAddItem"/> 
                                 <Button icon="sap-icon://add" press="onAddItem"/> 
                             </cells> 
                         </ColumnListItem> 
@@ -91,6 +87,8 @@
         </content>
         <footer>
             <Toolbar>
+                <ToolbarSpacer/>
+                <Button text="Avançar" type="Emphasized" press="onAvancar"/>
             </Toolbar>
         </footer>
     </Page>

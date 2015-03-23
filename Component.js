@@ -50,6 +50,12 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
                     targetControl : "idAppControl"
                 },
                 {
+                    pattern: "resumo",
+                    name: "n4",
+                    view: "Resumo",
+                    targetControl : "idAppControl"
+                },
+                {
                     name: "catchallMaster",
                     view: "List",
                     targetControl : "idAppControl"
@@ -89,9 +95,9 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
 
         var jModel = new sap.ui.model.json.JSONModel();
         this.setModel(jModel,"Fornecedores");
-//        oModel.read("/FornecedorSet",null, null, true, function(oData, oResponse){
-//            jModel.setData(oData);
-//        });
+        oModel.read("/FornecedorSet",null, null, true, function(oData, oResponse){
+            jModel.setData(oData);
+        });
 
         // set device model
         var oDeviceModel = new sap.ui.model.json.JSONModel({

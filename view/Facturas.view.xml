@@ -1,10 +1,6 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
            controllerName="sap.sousa.CriarProcesso.view.Facturas" xmlns:html="http://www.w3.org/1999/xhtml">
     <Page title="Introduzir dados de facturas" showNavButton="true" navButtonPress="onNavBack">
-        <headerContent>
-            <ToolbarSpacer/>
-            <Button text="Avançar" type="Emphasized" press="onPressAvancar"/>
-        </headerContent>
         <subHeader>
             <Toolbar>
                 <ToolbarSpacer/>
@@ -55,6 +51,8 @@
         </content>
         <footer>
             <Toolbar>
+                <ToolbarSpacer/>
+                <Button text="Avançar" type="Emphasized" press="onPressAvancar"/>
             </Toolbar>
         </footer>
     </Page>

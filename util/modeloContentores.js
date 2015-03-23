@@ -53,6 +53,7 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloContentor
                     novo.Factura = object.Factura;
                     novo.PedidoID = object.PedidoID;
                     novo.ItemID = object.ItemID;
+                    novo.Artigo = object.Artigo;
                     contentor.items.push(novo);
                 }
                 object.Transf = "";
