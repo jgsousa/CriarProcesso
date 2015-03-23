@@ -137,7 +137,7 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Res
             sap.m.MessageToast.show("Erro na criação");
         });
         this.getRouter().navTo("main");
-    }
+    },
 
     onNavBack : function(){
         window.history.go(-1);
