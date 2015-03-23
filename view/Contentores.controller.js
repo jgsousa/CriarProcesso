@@ -10,10 +10,12 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
      * @memberOf sap.sousa.CriarProcesso.Contentores
      */
 	onInit: function() {
-        this.getRouter().attachRoutePatternMatched(function(){
-            var model = this.getView().getModel("Processo");
-            if(model.getData().items.length == 0){
-                model.initMockData();
+        this.getRouter().attachRoutePatternMatched(function(oEvent){
+            if (oEvent.getParameter("name") == "n3") {
+                var model = this.getView().getModel("Processo");
+                if (model.getData().items.length == 0) {
+                    this.getRouter().navTo("main");
+                }
             }
         }, this);
         this.cModel = this._iniciarModelo();

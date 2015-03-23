@@ -39,8 +39,7 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Lis
      * @memberOf sap.sousa.CriarProcesso.List
      */
 	onAfterRendering: function() {
-        var model = this.getView().getModel();
-        var pmodel = this.getView().getModel("Processo");
+
 	},
 
     /**

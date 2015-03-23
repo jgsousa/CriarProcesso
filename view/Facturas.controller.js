@@ -10,16 +10,18 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Fac
      * @memberOf sap.sousa.CriarProcesso.Facturas
      */
 	onInit: function() {
-        this.getRouter().attachRoutePatternMatched(function(){
-           var model = this.getView().getModel("Processo");
-            if(model.getData().items.length == 0){
-                this.getRouter().navTo("main");
-            }
-            else{
-                var fModel = new sap.sousa.CriarProcesso.util.modeloFacturas();
-                fModel.initFromProcesso(model.getData());
-                this.getView().setModel(fModel, "Facturas");
-                this._setTable();
+        this.getRouter().attachRoutePatternMatched(function(oEvent){
+            if (oEvent.getParameter("name") == "n2") {
+                var model = this.getView().getModel("Processo");
+                if(model.getData().items.length == 0){
+                    this.getRouter().navTo("main");
+                }
+                else{
+                    var fModel = new sap.sousa.CriarProcesso.util.modeloFacturas();
+                    fModel.initFromProcesso(model.getData());
+                    this.getView().setModel(fModel, "Facturas");
+                    this._setTable();
+                }
             }
         }, this);
 	},
@@ -93,9 +95,10 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Fac
         var object = model.getODataObject();
         var oModel = this.getView().getModel();
         var procData = this.getView().getModel("Processo").getData();
-        procData.Processo = model.getData().processo;
-        procData.Empresa = model.getData().empresa;
 
+
+        object.ProcessoId = procData.Processo;
+        object.Empresa = procData.Empresa;
         for(var i= 0; i < procData.items.length; i++){
           var obj = {};
           obj.FacturaId = procData.items[i]["Factura"];
@@ -103,16 +106,25 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Fac
           obj.PedidoItemId = procData.items[i]["ItemID"];
           object.ItensFactura.push(obj);
         }
-        this.getRouter().navTo("n3");
+        var navSucess = false;
+        var busy = new sap.m.BusyDialog({ text:"A gravar..."});
+        busy.open();
         oModel.create('/ProcessoSet', object, null,
             function(){
-
+                navSucess = true;
+                busy.close();
             },
             function(oError){
                 var model = new sap.ui.model.json.JSONModel();
                 model.setJSON(oError.response.body);
                 sap.m.MessageToast.show(model.getData().error.message.value);
+                navSucess = false;
+                busy.close();
         });
+        if(navSucess){
+            this.getRouter().navTo("n3");
+        }
+
     }
 
 });

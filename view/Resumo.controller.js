@@ -10,10 +10,12 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Res
      * @memberOf sap.sousa.CriarProcesso.Resumo
      */
 	onInit: function() {
-        this.getRouter().attachRoutePatternMatched(function(){
-            var model = this.getView().getModel("Processo");
-            if(model.getData().items.length == 0){
-                model.initMockData();
+        this.getRouter().attachRoutePatternMatched(function(oEvent){
+            if (oEvent.getParameter("name") == "n4") {
+                var model = this.getView().getModel("Processo");
+                if (model.getData().items.length == 0) {
+                    this.getRouter().navTo("main");
+                }
             }
         }, this);
 	},
@@ -108,12 +110,15 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Res
             batchChanges.push( oModel.createBatchOperation("ContentorSet", "POST", dadosCont.contentores[i]) );
         }
         oModel.addBatchChangeOperations(batchChanges);
-        oModel.submitBatch(function(data){
-
+        var sucesso = false;
+        oModel.submitBatch(function(oData, oResponse,aErrorResponses){
+            sucesso = true;
         }, function(oError){
             sap.m.MessageToast.show("Erro na criação de contentores");
+            sucesso = false;
         });
         this._sendUpdate();
+
     },
 
     _sendUpdate : function(){
@@ -131,12 +136,18 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Res
 
         var oModel = this.getView().getModel();
         var path = "/ProcessoSet('" + obj.ProcessoId + "')";
+
+        var sucesso = false;
         oModel.update(path, obj, null, function(oData){
             sap.m.MessageToast.show("Criado com sucesso");
+            sucesso = true;
         }, function(oError){
             sap.m.MessageToast.show("Erro na criação");
+            sucesso = false;
         });
-        this.getRouter().navTo("main");
+        if(sucesso) {
+            this.getRouter().navTo("main");
+        }
     },
 
     onNavBack : function(){

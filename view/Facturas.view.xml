@@ -8,7 +8,7 @@
                 <Input id="inputProcesso"
                        type="Text"
                        placeholder="Entrar processo..."
-                       liveChange="onLiveProcesso"
+                       value="{Processo>/Processo}"
                        width="300px">
                 </Input>
                 <ToolbarSpacer/>
@@ -18,8 +18,7 @@
                        placeholder="Entrar empresa..."
                        showValueHelp="true"
                        valueHelpRequest="handleValueHelp"
-                       change="handleChangeEmpresa"
-                       liveChange="onLiveEmpresa"
+                       value="{Processo>/Empresa}"
                        width="300px">
                 </Input>
                 <ToolbarSpacer/>
