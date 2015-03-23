@@ -211,6 +211,10 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Con
 
     },
 
+    onNavBack : function(){
+        window.history.go(-1);
+    },
+
     onAvancar : function(oEvent){
         var hasPorAtribuir = this.getView().getModel("Processo").hasQuantidadesPorAtribuir();
         if(!hasPorAtribuir) {

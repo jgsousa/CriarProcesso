@@ -138,4 +138,8 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Res
         });
         this.getRouter().navTo("main");
     }
+
+    onNavBack : function(){
+        window.history.go(-1);
+    }
 });

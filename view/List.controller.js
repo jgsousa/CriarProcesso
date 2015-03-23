@@ -151,5 +151,9 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Lis
 
     onCartPressed : function(){
         this.getRouter().navTo("n2");
+    },
+
+    onNavBack : function(){
+        window.history.go(-1);
     }
 });
