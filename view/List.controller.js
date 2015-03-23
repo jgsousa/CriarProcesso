@@ -11,6 +11,17 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Lis
      */
 	onInit: function() {
         this._shopCartButton = this.getView().byId("btnAvancar");
+        this.getRouter().attachRoutePatternMatched(function(oEvent) {
+            if (oEvent.getParameter("name") == "main") {
+                var model = this.getView().getModel("Processo");
+                model.resetModelo();
+                model.updateBindings();
+                var table = this.getView().byId("tabela");
+                table.unbindItems();
+                var input = this.getView().byId("inputFornecedor");
+                input.setProperty("value", "");
+            }
+        }, this);
 	},
 
     /**

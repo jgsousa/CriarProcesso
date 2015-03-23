@@ -97,5 +97,10 @@ sap.ui.model.json.JSONModel.extend("sap.sousa.CriarProcesso.util.modeloProcesso"
             }
         }
         return false;
+    },
+
+    resetModelo : function(){
+        this.setData( { Processo: "", Empresa: "", total:0, items:[] } );
+        return this;
     }
 })

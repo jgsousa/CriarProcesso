@@ -106,7 +106,7 @@ sap.sousa.CriarProcesso.util.Controller.extend("sap.sousa.CriarProcesso.view.Fac
         this.getRouter().navTo("n3");
         oModel.create('/ProcessoSet', object, null,
             function(){
-                sap.m.MessageToast.show("Criado com sucesso");
+
             },
             function(oError){
                 var model = new sap.ui.model.json.JSONModel();
