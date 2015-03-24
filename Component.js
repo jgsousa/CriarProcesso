@@ -90,14 +90,7 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         }
 
         // Create and set domain model to the component
-        var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
-        this.setModel(oModel);
-
-        var jModel = new sap.ui.model.json.JSONModel();
-        this.setModel(jModel,"Fornecedores");
-        oModel.read("/FornecedorSet",null, null, true, function(oData, oResponse){
-            jModel.setData(oData);
-        });
+        this.setModel(new sap.ui.model.odata.ODataModel(sServiceUrl, true, null, null, null, false, true).attachMetadataLoaded(this, this._onMetaLoad));
 
         // set device model
         var oDeviceModel = new sap.ui.model.json.JSONModel({
@@ -118,6 +111,14 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
 
         this.getRouter().initialize();
 
+    },
+
+    _onMetaLoad : function(oEvent, oObject, oCenas){
+        var jModel = new sap.ui.model.json.JSONModel();
+        oObject.setModel(jModel,"Fornecedores");
+        this.read("/FornecedorSet",null, null, true, function(oData, oResponse){
+            jModel.setData(oData);
+        });
     },
 
     _startMockServer: function (sServiceUrl) {
