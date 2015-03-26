@@ -8,10 +8,15 @@ module.exports = function(grunt){
 
     grunt.initConfig({
         open:{
-            dev: {
+            saf: {
+                path: 'http://localhost:9010',
+                app: 'Safari'
+            },
+            chr: {
                 path: 'http://localhost:9010',
                 app: 'Google Chrome'
             }
+
         },
 
         watch:{
@@ -40,7 +45,7 @@ module.exports = function(grunt){
                     {
                         context: '/sap/opu/odata',
                         host: 'sapretail.deloitte.pt',
-                        port: '8080',
+                        port: '8000',
                         https: false
                     }
                 ]
@@ -51,7 +56,13 @@ module.exports = function(grunt){
     grunt.registerTask('default',[
         'configureProxies:server',
         'connect',
-        'open:dev',
+        'open:saf',
+        'watch'
+    ]);
+    grunt.registerTask('chrome',[
+        'configureProxies:server',
+        'connect',
+        'open:chr',
         'watch'
     ]);
 
