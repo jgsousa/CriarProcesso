@@ -15,13 +15,18 @@ module.exports = function(grunt){
             chr: {
                 path: 'http://localhost:9010',
                 app: 'Google Chrome'
+            },
+            win: {
+                path: 'http://localhost:9010',
+                app: 'chrome.exe'
             }
+
 
         },
 
         watch:{
             scripts:{
-                files: ['**/*.js'],
+                files: ['**/*.js', '!**/node_modules/**','!**/resources/**' ],
                 options:{
                     livereload:true,
                     interval:10000
@@ -44,7 +49,7 @@ module.exports = function(grunt){
                 proxies:[
                     {
                         context: '/sap/opu/odata',
-                        host: 'sapretail.deloitte.pt',
+                        host: '192.168.12.21',
                         port: '8000',
                         https: false
                     }
@@ -63,6 +68,12 @@ module.exports = function(grunt){
         'configureProxies:server',
         'connect',
         'open:chr',
+        'watch'
+    ]);
+    grunt.registerTask('windows',[
+        'configureProxies:server',
+        'connect',
+        'open:win',
         'watch'
     ]);
 
