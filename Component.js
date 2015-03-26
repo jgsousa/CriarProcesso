@@ -90,7 +90,7 @@ sap.ui.core.UIComponent.extend("sap.sousa.CriarProcesso.Component", {
         }
 
         // Create and set domain model to the component
-        this.setModel(new sap.ui.model.odata.ODataModel(sServiceUrl, true, null, null, null, false, true).attachMetadataLoaded(this, this._onMetaLoad));
+        this.setModel(new sap.ui.model.odata.ODataModel(sServiceUrl, true, null, null, null, false, false, true).attachMetadataLoaded(this, this._onMetaLoad));
 
         // set device model
         var oDeviceModel = new sap.ui.model.json.JSONModel({
